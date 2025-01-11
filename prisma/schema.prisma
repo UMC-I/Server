@@ -8,20 +8,21 @@ datasource db {
 }
 
 model User {
-  id         BigInt    @id @default(autoincrement())
-  name       String
-  email      String
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime? @map("updated_at")
+  id        BigInt    @id @default(autoincrement())
+  name      String
+  email     String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
 
-  posts      Post[]    // 1:N 관계
-  likes      Likes[]   // 1:N 관계
-  dreams     Dream[]   // 1:N 관계
+  posts  Post[] // 1:N 관계
+  likes  Likes[] // 1:N 관계
+  dreams Dream[] // 1:N 관계
 
   @@map("user")
 }
 
 model Post {
+
   id         BigInt    @id @default(autoincrement()) @map("id")
   userId     BigInt    @map("user_id")
   title      String    @map("title")
@@ -32,36 +33,46 @@ model Post {
   createdAt  DateTime  @default(now()) @map("create_at")
   updatedAt  DateTime? @map("update_at")
 
-  user       User      @relation(fields: [userId], references: [id])
-  likes      Likes[]
-  dreams     Dream[]
+
+  user   User    @relation(fields: [userId], references: [id])
+  likes  Likes[]
+  dreams Dream[]
 
   @@map("post")
 }
 
 model Likes {
-  id         BigInt    @id @default(autoincrement())
-  postId     BigInt    @map("post_id")
-  userId     BigInt    @map("user_id")
-  createdAt  DateTime  @default(now()) @map("create_at")
-  updatedAt  DateTime? @map("update_at")
+  id        BigInt    @id @default(autoincrement())
+  postId    BigInt    @map("post_id")
+  userId    BigInt    @map("user_id")
+  createdAt DateTime  @default(now()) @map("create_at")
+  updatedAt DateTime? @map("update_at")
 
-  post       Post      @relation(fields: [postId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@map("likes")
 }
 
 model Dream {
-  id         BigInt    @id @default(autoincrement())
-  postId     BigInt    @map("post_id")
-  userId     BigInt    @map("user_id")
-  content    String
-  createdAt  DateTime  @default(now()) @map("create_at")
-  updatedAt  DateTime? @map("update_at")
+  id        BigInt    @id @default(autoincrement())
+  postId    BigInt    @map("post_id")
+  userId    BigInt    @map("user_id")
+  content   String
+  createdAt DateTime  @default(now()) @map("create_at")
+  updatedAt DateTime? @map("update_at")
 
-  post       Post      @relation(fields: [postId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@map("dream")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.VarChar(512)
+  expiresAt DateTime @map("expires_at")
+
+  @@map("session")
 }
