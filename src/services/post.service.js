@@ -1,9 +1,10 @@
-import { responseFromPost } from "../dtos/post.dto.js";
+import { responseFromPost responseFromAllPosts } from "../dtos/post.dto.js";
 import { NotExistPost } from "../errors/post.errors.js";
 import {
     addPost,
     getPost,
-    patchPostLike
+    patchPostLike,
+  getAllPosts,
 } from "../repositories/post.repository.js";
 
 
@@ -37,4 +38,9 @@ export const patchLike = async (userId, postId, data) => {
         {
             like
         });
+};
+
+export const listPosts = async (category) => {
+  const posts = await getAllPosts(category);
+  return responseFromAllPosts(posts);
 };

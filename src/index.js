@@ -34,6 +34,20 @@ passport.deserializeUser((user, done) => done(null, user));
 
 const app = express();
 const port = process.env.PORT;
+//---------------------------------
+app.use((req, res, next) => {
+    res.success = (success) => {
+        return res.json({ resultType: "SUCCESS", error: null, success });
+    };
+    res.error = ({ errorCode = "unknown", reason = null, data = null }) => {
+        return res.json({
+            resultType: "FAIL",
+            error: { errorCode, reason, data },
+            success: null,
+        });
+    };
+    next();
+});
 
 app.use(cors({ origin: "*" }));
 app.use(express.static("public"));
@@ -96,20 +110,6 @@ app.get("/openapi.json", async (req, res, next) => {
   res.json(result ? result.data : null);
 });
 
-//---------------------------------
-app.use((req, res, next) => {
-  res.success = (success) => {
-    return res.json({ resultType: "SUCCESS", error: null, success });
-  };
-  res.error = ({ errorCode = "unknown", reason = null, data = null }) => {
-    return res.json({
-      resultType: "FAIL",
-      error: { errorCode, reason, data },
-      success: null,
-    });
-  };
-  next();
-});
 //--------------------------------
 app.get(
   "/oauth2/login/kakao",
@@ -153,15 +153,16 @@ app.patch("/posts/:postId/like", handlerPostLike);
 //--------------------------------
 
 app.use((err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
+    console.log({ err })
+    if (res.headersSent) {
+        return next(err);
+    }
 
-  res.status(err.statusCode || 500).error({
-    errorCode: err.errorCode || "unknown",
-    reason: err.reason || err.message || null,
-    data: err.data || null,
-  });
+    res.status(err.statusCode || 500).error({
+        errorCode: err.errorCode || "unknown",
+        reason: err.reason || err.message || null,
+        data: err.data || null,
+    });
 });
 
 app.listen(port, () => {

@@ -1,15 +1,15 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToPost, bodyToLike } from "../dtos/post.dto.js";
-import { postAdding, patchLike } from "../services/post.service.js";
+import { postAdding, patchLike, listPosts } from "../services/post.service.js";
 import { NotSocialError } from "../errors/post.errors.js";
+
 export const handleListPost = async (req, res, next) => {
   /*
-    #swagger.summary = '장르에 따른 게시글 조회 API';
+    #swagger.summary = '카테고리에 따른 게시글 조회 API';
     #swagger.tags = ['Post']
      #swagger.parameters = [{
         in: 'query',
         name: 'genre',
-        description: '장르 선택',
+        description: '카테고리 선택',
         required: false,
         type: 'string',
         example: 'horror'
@@ -60,6 +60,13 @@ export const handleListPost = async (req, res, next) => {
       }
     };
   */
+  try {
+    const category = req.query.category?.replace(/['"]+/g, "");
+    const posts = await listPosts(category);
+    res.status(StatusCodes.OK).success(posts);
+  } catch (error) {
+    next(error);
+  }
 };
 // 게시물 생성
 export const handleCreatePost = async (req, res, next) => {
@@ -133,18 +140,16 @@ export const handleCreatePost = async (req, res, next) => {
       throw new NotSocialError("소셜 로그인을 해주세요.", req.user)
     }
     console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
-        const post = await postAdding(req.user.id, bodyToPost(req.body));
-        res.status(StatusCodes.OK).success(post);
-    } catch (err) {
-        return next(err);
-    }
+    const post = await postAdding(req.user.id, bodyToPost(req.body));
+    res.status(StatusCodes.OK).success(post);
+  } catch (err) {
+    return next(err);
+  }
 };
 
-
-
 // 꿈 상세 조회
-export const handlerGetPostView = async (req,res) =>{
-    /*
+export const handlerGetPostView = async (req, res) => {
+  /*
   #swagger.summary = '꿈 상세 조회 API';
   #swagger.tags = ['Post']
   #swagger.parameters['postId'] = {
@@ -209,12 +214,10 @@ export const handlerGetPostView = async (req,res) =>{
     }
   };
 */
-
-}
+};
 
 // 게시물 좋아요 누르기
 export const handlerPostLike = async (req,res, next) =>{
-    /*
  #swagger.summary = '게시물 좋아요 누르기API';
  #swagger.tags = ['Post']
  #swagger.parameters['postId'] = {
@@ -325,4 +328,3 @@ export const handlerPostLike = async (req,res, next) =>{
         return next(err);
     }
 }
-

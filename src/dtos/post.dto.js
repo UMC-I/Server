@@ -23,3 +23,16 @@ export const responseFromLike = ({ like }) => {
         like: like
     }
 };
+
+export const responseFromAllPosts = (posts) => {
+  const AllPosts = posts.map((post) => ({
+    postId: post.id,
+    title: post.title,
+    content: post.content,
+    category: post.category,
+  }));
+
+  return {
+    success: AllPosts,
+  };
+};
