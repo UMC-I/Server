@@ -10,3 +10,16 @@ export const responseFromUser = ({ user }) => {
         name: user.name
     }
 };
+// 나의 꿈 비공개로 설정하기
+export const bodyToUserPostOpen = (body) => {
+    return {
+        postId: body.postId,
+        open: body.open
+    }
+};
+export const responseFromUserPostOpen = ({ user }) => {
+    return {
+        postId: user.postId,
+        open: user.open
+    }
+};

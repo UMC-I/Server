@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
-import { userSignUp } from "../services/user.service.js";
+import { bodyToUser, bodyToUserPostOpen } from "../dtos/user.dto.js";
+import { userSignUp, patchPostOpen } from "../services/user.service.js";
 
 export const handleUserSignUp = async (req, res, next) => {
   try {
@@ -16,7 +16,7 @@ export const handleUserSignUp = async (req, res, next) => {
 
 
 // 나의 꿈 비공개로 설정하기
-export const handlerReleaseOption = async(req,res) =>{
+export const handlerReleaseOption = async(req,res, next) =>{
     /*
       #swagger.summary = '나의 꿈 공개 여부 수정 API';
       #swagger.tags = ['User']
@@ -28,9 +28,8 @@ export const handlerReleaseOption = async(req,res) =>{
                     type: "object",
                     required: ["userId", "postId", "open"],
                     properties: {
-                        partyName: { type: "integer", example: 1 },
-                        name: { type: "integer", example: 1 },
-                        open: { type: "string", example: "private" }
+                        postId: { type: "integer", example: 1 },
+                        open: { type: "boolean", example: false }
                     }
                 }
             }
@@ -52,9 +51,9 @@ export const handlerReleaseOption = async(req,res) =>{
                     postId: { type: "integer", example: 1, description: "게시물의 고유 ID" },
                     userId: { type: "integer", example: 1, description: "유저의 고유 ID" },
                     open: {
-                      type: "string",
-                      example: "private",
-                      description: "게시물 공개 여부 ('public' 또는 'private')"
+                      type: "boolean",
+                      example: "0",
+                      description: "게시물 공개 여부 ('0' 또는 '1')"
                     }
                   }
                 }
@@ -94,7 +93,14 @@ export const handlerReleaseOption = async(req,res) =>{
       };
 
     */
+   try {
+    console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
 
+        const user = await patchPostOpen(req.user.id, bodyToUserPostOpen(req.body));
+        res.status(StatusCodes.OK).success(user);
+    } catch (err) {
+        return next(err);
+    }
 }
 
 export const handleListMyPost = async (req, res, next) => {
