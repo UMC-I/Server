@@ -1,13 +1,12 @@
-// controllers/dream.controller.js
 import { StatusCodes } from "http-status-codes";
-import { generateDreamDescription } from "../services/dream.service.js";
+import { listPosts } from "../services/post.service.js";
 
-export const handleGenerateDreamDescription = async (req, res, next) => {
+export const handleListPost = async (req, res, next) => {
   /*
-    #swagger.summary = '꿈 해석 생성 API'
-    #swagger.tags = ['Dream']
+    #swagger.summary = '카테고리에 따른 게시글 조회 API';
+    #swagger.tags = ['Post']
     #swagger.responses[200] = {
-      description: "꿈 해석 생성 성공",
+      description: "게시글 조회 성공",
       content: {
         "application/json": {
           schema: {
@@ -18,11 +17,10 @@ export const handleGenerateDreamDescription = async (req, res, next) => {
               success: {
                 type: "object",
                 properties: {
-                  id: { type: "number" },
                   postId: { type: "number" },
-                  userId: { type: "number" },
+                  title: { type: "string" },
                   content: { type: "string" },
-                  createdAt: { type: "string" }
+                  likes: { type: "number" },
                 }
               }
             }
@@ -31,7 +29,7 @@ export const handleGenerateDreamDescription = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "존재하지 않는 게시물 데이터",
+      description: "존재하지 않는 카테고리",
       content: {
         "application/json": {
           schema: {
@@ -54,9 +52,9 @@ export const handleGenerateDreamDescription = async (req, res, next) => {
     };
   */
   try {
-    const postId = BigInt(req.params.postId);
-    const result = await generateDreamDescription(postId);
-    res.status(StatusCodes.OK).success(result);
+    const category = req.query.category?.replace(/['"]+/g, "");
+    const posts = await listPosts(category);
+    res.status(StatusCodes.OK).success(posts);
   } catch (error) {
     next(error);
   }

@@ -1,7 +1,15 @@
-// repositories/dream.repository.js
 import { prisma } from "../db.config.js";
+import { ExsistsNotPostError } from "../errors/post.errors.js";
 
 export const getPost = async (postId) => {
+  const post = await prisma.post.findFirst({
+    where: { id: postId },
+  });
+
+  if (!post) {
+    throw new ExsistsNotPostError("게시글을 찾을 수 없습니다.");
+  }
+
   return await prisma.post.findUnique({
     where: { id: postId },
     select: {

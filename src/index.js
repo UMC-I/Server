@@ -15,10 +15,8 @@ import {
   handlerPostLike,
 } from "./controllers/post.controller.js";
 import { handleListPostRank } from "./controllers/home.controller.js";
-import {
-  handleListPost,
-  handleCreatePost,
-} from "./controllers/post.controller.js";
+import { handleCreatePost } from "./controllers/post.controller.js";
+import { handleListPost } from "./controllers/allPost.controller.js";
 import { handleGenerateDreamDescription } from "./controllers/dream.controller.js";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
@@ -177,9 +175,13 @@ app.use((err, req, res, next) => {
 });
 
 const option = {
-  ca: fs.readFileSync('./pem/fullchain.pem'),
-  key: fs.readFileSync(path.resolve(process.cwd(), './pem/privkey.pem'), 'utf8').toString(),
-  cert: fs.readFileSync(path.resolve(process.cwd(), './pem/cert.pem'), 'utf8').toString(),
+  ca: fs.readFileSync("./pem/fullchain.pem"),
+  key: fs
+    .readFileSync(path.resolve(process.cwd(), "./pem/privkey.pem"), "utf8")
+    .toString(),
+  cert: fs
+    .readFileSync(path.resolve(process.cwd(), "./pem/cert.pem"), "utf8")
+    .toString(),
 };
 
 HTTPS.createServer(option, app).listen(port, () => {

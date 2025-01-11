@@ -1,74 +1,12 @@
 import { StatusCodes } from "http-status-codes";
-import {bodyToPost, dreamToView,bodyToLike} from "../dtos/post.dto.js";
-import { postAdding, patchLike, listPosts, UserDreamView } from "../services/post.service.js";
+import { bodyToPost, dreamToView, bodyToLike } from "../dtos/post.dto.js";
+import {
+  postAdding,
+  patchLike,
+  UserDreamView,
+} from "../services/post.service.js";
 import { NotSocialError } from "../errors/post.errors.js";
 
-export const handleListPost = async (req, res, next) => {
-  /*
-    #swagger.summary = '카테고리에 따른 게시글 조회 API';
-    #swagger.tags = ['Post']
-     #swagger.parameters = [{
-        in: 'query',
-        name: 'genre',
-        description: '카테고리 선택',
-        required: false,
-        type: 'string',
-        example: 'horror'
-    }]
-    #swagger.responses[200] = {
-      description: "게시글 조회 성공",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              resultType: { type: "string", example: "SUCCESS" },
-              error: { type: "object", nullable: true, example: null },
-              success: {
-                type: "object",
-                properties: {
-                  postId: { type: "number" },
-                  title: { type: "string" },
-                  content: { type: "string" },
-                  likes: { type: "number" },
-                }
-              }
-            }
-          }
-        }
-      }
-    };
-    #swagger.responses[404] = {
-      description: "존재하지 않는 게시물 데이터",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              resultType: { type: "string", example: "FAIL" },
-              error: {
-                type: "object",
-                properties: {
-                  errorCode: { type: "string" },
-                  reason: { type: "string" },
-                  data: { type: "object" }
-                }
-              },
-              success: { type: "object", nullable: true, example: null }
-            }
-          }
-        }
-      }
-    };
-  */
-  try {
-    const category = req.query.category?.replace(/['"]+/g, "");
-    const posts = await listPosts(category);
-    res.status(StatusCodes.OK).success(posts);
-  } catch (error) {
-    next(error);
-  }
-};
 // 게시물 생성
 export const handleCreatePost = async (req, res, next) => {
   /*
@@ -113,8 +51,8 @@ export const handleCreatePost = async (req, res, next) => {
         }
       }
     };
-    #swagger.responses[400] = {
-      description: "로그인이 되어있지 않을 때때",
+    #swagger.responses[404] = {
+      description: "로그인이 되어있지 않을 때",
       content: {
         "application/json": {
           schema: {
@@ -220,7 +158,7 @@ export const handlerGetPostView = async (req, res) => {
 };
 
 // 게시물 좋아요 누르기
-export const handlerPostLike = async (req,res, next) =>{
+export const handlerPostLike = async (req, res, next) => {
   /*
  #swagger.summary = '게시물 좋아요 누르기API';
  #swagger.tags = ['Post']

@@ -1,4 +1,5 @@
 import { prisma } from "../db.config.js";
+import { ExsistsNotPostError } from "../errors/post.errors.js";
 // 게시물 생성
 export const addPost = async (data) => {
   const created = await prisma.post.create({ data: data });
@@ -60,7 +61,7 @@ export const patchPostLike = async (data) => {
 
 export const getAllPosts = async (category) => {
   if (category != "공포" && category != "개꿈" && category != "일상")
-    throw new Error("존재하지 않는 카테코리입니다.");
+    throw new ExsistsNotPostError("존재하지 않는 카테코리입니다.", category);
 
   const posts = await prisma.post.findMany({
     where: {
