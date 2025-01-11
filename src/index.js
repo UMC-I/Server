@@ -2,7 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 
-import {handlerReleaseOption, handleUserSignUp, handlerListMyPost} from "./controllers/user.controller.js";
+import {handlerReleaseOption, handleUserSignUp, handleListMyPost} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
 import {handlerGetPostView, handlerPostLike} from "./controllers/posts.controller.js";
