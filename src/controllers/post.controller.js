@@ -1,7 +1,12 @@
 import { StatusCodes } from "http-status-codes";
 
-import {bodyToPost, dreamToView} from "../dtos/post.dto.js";
-import { postAdding, patchLike, listPosts, UserDreamView } from "../services/post.service.js";
+import { bodyToPost, dreamToView } from "../dtos/post.dto.js";
+import {
+  postAdding,
+  patchLike,
+  listPosts,
+  UserDreamView,
+} from "../services/post.service.js";
 import { NotSocialError } from "../errors/post.errors.js";
 
 export const handleListPost = async (req, res, next) => {
@@ -139,7 +144,7 @@ export const handleCreatePost = async (req, res, next) => {
   */
   try {
     if (!req.user) {
-      throw new NotSocialError("소셜 로그인을 해주세요.", req.user)
+      throw new NotSocialError("소셜 로그인을 해주세요.", req.user);
     }
     console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
     const post = await postAdding(req.user.id, bodyToPost(req.body));
@@ -221,7 +226,8 @@ export const handlerGetPostView = async (req, res) => {
 };
 
 // 게시물 좋아요 누르기
-export const handlerPostLike = async (req,res, next) =>{
+export const handlerPostLike = async (req, res, next) => {
+  /*
  #swagger.summary = '게시물 좋아요 누르기API';
  #swagger.tags = ['Post']
  #swagger.parameters['postId'] = {
@@ -323,12 +329,16 @@ export const handlerPostLike = async (req,res, next) =>{
 */
   try {
     if (!req.user) {
-      throw new NotSocialError("소셜 로그인을 해주세요.", req.user)
+      throw new NotSocialError("소셜 로그인을 해주세요.", req.user);
     }
     console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
-        const like = await patchLike(req.user.id, parseInt(req.params.postId) ,bodyToLike(req.body));
-        res.status(StatusCodes.OK).success(like);
-    } catch (err) {
-        return next(err);
-    }
-}
+    const like = await patchLike(
+      req.user.id,
+      parseInt(req.params.postId),
+      bodyToLike(req.body)
+    );
+    res.status(StatusCodes.OK).success(like);
+  } catch (err) {
+    return next(err);
+  }
+};
