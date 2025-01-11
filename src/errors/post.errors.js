@@ -1,6 +1,16 @@
 export class NotSocialError extends Error {
     errorCode = "P001";
 
+
+    constructor(reason, data) {
+        super(reason);
+        this.reason = reason;
+        this.data = data;
+    }
+}
+export class NotExistPost extends Error {
+    errorCode = "P002";
+
     constructor(reason, data) {
         super(reason);
         this.reason = reason;
@@ -9,7 +19,7 @@ export class NotSocialError extends Error {
 }
 
 export class ExsistsNotPostError extends Error{
-    errorCode = 'P002';
+    errorCode = 'P003';
 
     constructor(reason, data) {
         super(reason);

@@ -7,9 +7,21 @@ export const bodyToPost = (body) => {
     }
 };
 export const responseFromPost = ({ post }) => {
-  return {
-    post: post,
-  };
+    return {
+        post: post
+    }
+};
+
+// 게시물 좋아요 누르기
+export const bodyToLike = (body) => {
+    return {
+        status: body.status,
+    }
+};
+export const responseFromLike = ({ like }) => {
+    return {
+        like: like
+    }
 };
 
 export const responseFromAllPosts = (posts) => {
