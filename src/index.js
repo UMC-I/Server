@@ -5,7 +5,7 @@ import express from "express";
 import {handlerReleaseOption, handleUserSignUp, handleListMyPost} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
-import {handlerGetPostView, handlerPostLike} from "./controllers/posts.controller.js";
+import {handlerGetPostView, handlerPostLike} from "./controllers/post.controller.js";
 import { handleListPostRank } from "./controllers/home.controller.js";
 import {
   handleListPost,
@@ -123,7 +123,7 @@ app.get(
 //--------------------------------
 
 app.get("/", (req, res, next) => {
-  res.send("Hello World!");
+  res.send(req.user);
 });
 app.post("/test", handleUserSignUp);
 
