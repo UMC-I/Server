@@ -64,7 +64,7 @@ export const handlerReleaseOption = async(req,res, next) =>{
                 error: {
                   type: "object",
                   properties: {
-                    errorCode: { type: "string", example: "U001" },
+                    errorCode: { type: "string", example: "P001" },
                     reason: { type: "string", example: "유저를 찾을 수 없음" },
                     data: {
                       type: "object",
@@ -92,7 +92,7 @@ export const handlerReleaseOption = async(req,res, next) =>{
                 error: {
                   type: "object",
                   properties: {
-                    errorCode: { type: "string", example: "U002" },
+                    errorCode: { type: "string", example: "P002" },
                     reason: { type: "string", example: "게시물를 찾을 수 없음" },
                     data: {
                       type: "object",
@@ -175,7 +175,7 @@ export const handleListMyPost = async (req, res, next) => {
             error: {
               type: "object",
               properties: {
-                errorCode: { type: "string", example: "U001", description: "에러 코드" },
+                errorCode: { type: "string", example: "U003", description: "에러 코드" },
                 reason: { type: "string", example: "해당 유저를 찾을 수 없습니다.", description: "에러 이유" },
                 data: {
                   type: "object",

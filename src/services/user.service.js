@@ -13,7 +13,7 @@ export const myPageGetDream = async (data) => {
 
     const user = await getUser(data);
     if (!user) {
-        throw new ExsistsNotUserError("존재하지 않는 유저입니다.")
+        throw new ExsistsNotUserError("해당 유저를 찾을 수 없습니다.")
     }
 
     const dreams = await getUserDreams(data);
