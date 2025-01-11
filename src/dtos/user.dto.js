@@ -1,15 +1,20 @@
+
 import {ExsistsNotUserError} from "../errors/user.errors.js";
 
-export const bodyToUser = (body) => {
+
+
+// 나의 꿈 비공개로 설정하기
+export const bodyToUserPostOpen = (body) => {
+
     return {
-        name: body.name,
-        email: body.email
+        postId: body.postId,
+        open: body.open
     }
 };
-export const responseFromUser = ({ user }) => {
+export const responseFromUserPostOpen = ({ post }) => {
     return {
-        email: user.email,
-        name: user.name
+        postId: post.postId,
+        open: post.open
     }
 };
 

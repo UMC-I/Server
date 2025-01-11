@@ -1,3 +1,6 @@
+import { StatusCodes } from "http-status-codes";
+import { listPostRank } from "../services/home.service.js";
+
 export const handleListPostRank = async (req, res, next) => {
   /*
     #swagger.summary = '랭킹 조회 API';
@@ -47,4 +50,10 @@ export const handleListPostRank = async (req, res, next) => {
       }
     };
   */
+  try {
+    const posts = await listPostRank();
+    res.status(StatusCodes.OK).success(posts);
+  } catch (error) {
+    next(error); // 에러 핸들러로 전달
+  }
 };
