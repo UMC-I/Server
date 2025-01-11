@@ -11,3 +11,15 @@ export const responseFromPost = ({ post }) => {
         post: post
     }
 };
+
+// 게시물 좋아요 누르기
+export const bodyToLike = (body) => {
+    return {
+        status: body.status,
+    }
+};
+export const responseFromLike = ({ like }) => {
+    return {
+        like: like
+    }
+};
