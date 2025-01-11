@@ -2,7 +2,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 
-import {handlerReleaseOption, handleListMyPost} from "./controllers/user.controller.js";
+import {
+  handlerReleaseOption,
+  handleListMyPost,
+} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
 import {
@@ -14,6 +17,7 @@ import {
   handleListPost,
   handleCreatePost,
 } from "./controllers/post.controller.js";
+import { handleGenerateDreamDescription } from "./controllers/dream.controller.js";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
@@ -36,17 +40,17 @@ const app = express();
 const port = process.env.PORT;
 //---------------------------------
 app.use((req, res, next) => {
-    res.success = (success) => {
-        return res.json({ resultType: "SUCCESS", error: null, success });
-    };
-    res.error = ({ errorCode = "unknown", reason = null, data = null }) => {
-        return res.json({
-            resultType: "FAIL",
-            error: { errorCode, reason, data },
-            success: null,
-        });
-    };
-    next();
+  res.success = (success) => {
+    return res.json({ resultType: "SUCCESS", error: null, success });
+  };
+  res.error = ({ errorCode = "unknown", reason = null, data = null }) => {
+    return res.json({
+      resultType: "FAIL",
+      error: { errorCode, reason, data },
+      success: null,
+    });
+  };
+  next();
 });
 
 app.use(cors({ origin: "*" }));
@@ -153,19 +157,21 @@ app.get("/posts/:postId", handlerGetPostView);
 //게시물 좋아요 누르기
 app.patch("/posts/:postId/like", handlerPostLike);
 
+app.post("/users/posts/:postId/description", handleGenerateDreamDescription);
+
 //--------------------------------
 
 app.use((err, req, res, next) => {
-    console.log({ err })
-    if (res.headersSent) {
-        return next(err);
-    }
+  console.log({ err });
+  if (res.headersSent) {
+    return next(err);
+  }
 
-    res.status(err.statusCode || 500).error({
-        errorCode: err.errorCode || "unknown",
-        reason: err.reason || err.message || null,
-        data: err.data || null,
-    });
+  res.status(err.statusCode || 500).error({
+    errorCode: err.errorCode || "unknown",
+    reason: err.reason || err.message || null,
+    data: err.data || null,
+  });
 });
 
 
