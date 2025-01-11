@@ -25,7 +25,7 @@ model Post {
   id        BigInt    @id @default(autoincrement()) @map("id")
   userId    BigInt    @map("user_id")
   title     String    @map("title")
-  content   String    @map("content")
+  content   String    @map("content") @db.Text
   category  String    @map("category")
   open      Boolean   @default(true) @map("open")
   createdAt DateTime  @default(now()) @map("create_at")

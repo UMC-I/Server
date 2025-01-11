@@ -184,8 +184,8 @@ export const handleListMyPost = async (req, res, next) => {
             error: {
               type: "object",
               properties: {
-                errorCode: { type: "string", example: "U003", description: "에러 코드" },
-                reason: { type: "string", example: "해당 유저를 찾을 수 없습니다.", description: "에러 이유" },
+                errorCode: { type: "string", example: "U001", description: "에러 코드" },
+                reason: { type: "string", example: "소셜로그인을 진행해 주세요", description: "에러 이유" },
                 data: {
                   type: "object",
                   properties: {

@@ -14,9 +14,9 @@ CREATE TABLE `post` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `user_id` BIGINT NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `content` VARCHAR(191) NOT NULL,
+    `content` TEXT NOT NULL,
     `category` VARCHAR(191) NOT NULL,
-    `open` BOOLEAN NOT NULL,
+    `open` BOOLEAN NOT NULL DEFAULT true,
     `create_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `update_at` DATETIME(3) NULL,
 
@@ -30,6 +30,7 @@ CREATE TABLE `likes` (
     `user_id` BIGINT NOT NULL,
     `create_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `update_at` DATETIME(3) NULL,
+    `status` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
