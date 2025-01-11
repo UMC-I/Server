@@ -5,7 +5,10 @@ import express from "express";
 import {handlerReleaseOption, handleListMyPost} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
-import {handlerGetPostView, handlerPostLike} from "./controllers/post.controller.js";
+import {
+  handlerGetPostView,
+  handlerPostLike,
+} from "./controllers/post.controller.js";
 import { handleListPostRank } from "./controllers/home.controller.js";
 import {
   handleListPost,
@@ -14,23 +17,20 @@ import {
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
-import {
-    kakaoStrategy
-} from "./auth.config.js";
+import { kakaoStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
 
-BigInt.prototype.toJSON = function () { // bigint 호환
-    const int = Number.parseInt(this.toString());
-    return int ?? this.toString();
+BigInt.prototype.toJSON = function () {
+  // bigint 호환
+  const int = Number.parseInt(this.toString());
+  return int ?? this.toString();
 };
-
 
 dotenv.config();
 
 passport.use(kakaoStrategy);
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
-
 
 const app = express();
 const port = process.env.PORT;
@@ -41,19 +41,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(
-    session({
-        cookie: {
-            maxAge: 7 * 24 * 60 * 60 * 1000, // ms
-        },
-        secret: process.env.EXPRESS_SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        store: new PrismaSessionStore(prisma, {
-            checkPeriod: 2 * 60 * 1000, // ms
-            dbRecordIdIsSessionId: true,
-            dbRecordIdFunction: undefined,
-        }),
-    })
+  session({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, // ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -111,14 +111,17 @@ app.use((req, res, next) => {
   next();
 });
 //--------------------------------
-app.get("/oauth2/login/kakao", passport.authenticate('kakao', { authType: 'reprompt' }));
 app.get(
-    "/oauth2/callback/kakao",
-    passport.authenticate("kakao", {
-        failureRedirect: "/oauth2/login/kakao",
-        failureMessage: true,
-    }),
-    (req, res) => res.redirect("/")
+  "/oauth2/login/kakao",
+  passport.authenticate("kakao", { authType: "reprompt" })
+);
+app.get(
+  "/oauth2/callback/kakao",
+  passport.authenticate("kakao", {
+    failureRedirect: "/oauth2/login/kakao",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
 );
 //--------------------------------
 
@@ -127,7 +130,7 @@ app.get("/", (req, res, next) => {
 });
 
 // 홈 화면에에서 3개의 랭크 조회
-app.get("/home/posts/rank", handleListPostRank);
+app.get("/posts/rank", handleListPostRank);
 
 // 각 장르별 게시물 조회
 app.get("/posts", handleListPost);
@@ -138,15 +141,14 @@ app.post("/users/posts", handleCreatePost);
 // 내가 작성한 게시물 조회 (제목, 내용 일부, 비공개 여부)
 app.get("/my-posts", handleListMyPost);
 
-
 //나의 꿈 비공개 여부 수정
-app.patch('/users/posts/open', handlerReleaseOption);
+app.patch("/users/posts/open", handlerReleaseOption);
 
 // 꿈 상세 조회
-app.get('/posts/:postId', handlerGetPostView);
+app.get("/posts/:postId", handlerGetPostView);
 
 //게시물 좋아요 누르기
-app.patch('/posts/:postId/like', handlerPostLike);
+app.patch("/posts/:postId/like", handlerPostLike);
 
 //--------------------------------
 
