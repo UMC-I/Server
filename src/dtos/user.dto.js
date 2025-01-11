@@ -34,3 +34,4 @@ export const responseFromUserPosts = (data) =>{
         data: data
     }
 }
+

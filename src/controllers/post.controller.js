@@ -1,5 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { postAdding, patchLike, listPosts } from "../services/post.service.js";
+
+import {bodyToPost, dreamToView} from "../dtos/post.dto.js";
+import { postAdding, patchLike, listPosts, UserDreamView } from "../services/post.service.js";
 import { NotSocialError } from "../errors/post.errors.js";
 
 export const handleListPost = async (req, res, next) => {
@@ -149,6 +151,8 @@ export const handleCreatePost = async (req, res, next) => {
 
 // 꿈 상세 조회
 export const handlerGetPostView = async (req, res) => {
+  const dream = await UserDreamView(dreamToView(req.params));
+  res.status(StatusCodes.OK).success(dream);
   /*
   #swagger.summary = '꿈 상세 조회 API';
   #swagger.tags = ['Post']
@@ -197,7 +201,7 @@ export const handlerGetPostView = async (req, res) => {
             error: {
               type: "object",
               properties: {
-                errorCode: { type: "string", example: "P001" },
+                errorCode: { type: "string", example: "P002" },
                 reason: { type: "string", example: "게시물을 찾을 수 없음" },
                 data: {
                   type: "object",

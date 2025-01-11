@@ -36,3 +36,22 @@ export const responseFromAllPosts = (posts) => {
     success: AllPosts,
   };
 };
+
+
+// 꿈 상세조회 요청 DTO
+export const dreamToView = (params) =>{
+    return{
+        postId: params.postId
+    }
+}
+
+// 꿈 상세조회 전송 DTO
+export const responseFromDream = (data) =>{
+    return {
+        postId: data.dream.id,
+        title: data.dream.title,
+        content: data.dream.content,
+        category: data.dream.category,
+        likeCount: data.likeCount
+    }
+}
