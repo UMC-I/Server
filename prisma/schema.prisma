@@ -14,9 +14,20 @@ datasource db {
 }
 
 model User {
-  id    BigInt  @id @default(autoincrement())
-  name  String? @db.VarChar(20)
-  email String? @unique(map: "email") @db.VarChar(50)
+  id        BigInt    @id @default(autoincrement())
+  name      String?   @db.VarChar(20)
+  email     String?   @unique(map: "email") @db.VarChar(50)
+  createdAt DateTime? @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt DateTime? @default(now()) @map("updated_at") @db.DateTime(6)
 
   @@map("user")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.VarChar(512)
+  expiresAt DateTime @map("expires_at")
+
+  @@map("session")
 }
