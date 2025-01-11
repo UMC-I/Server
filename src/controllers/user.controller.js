@@ -124,14 +124,22 @@ export const handlerReleaseOption = async(req,res, next) =>{
 
 // 나의 꿈 조회(내가 작성한 게시글 조회)
 export const handleListMyPost = async (req, res, next) => {
-    const dreams = await myPageGetDream(userToPosts(req.user))
+    const dreams = await myPageGetDream(userToPosts(req.user,req.query))
     res.status(StatusCodes.OK).success(dreams)
     /*
-  #swagger.summary = '사용자가 작성한 게시글 조회 API';
+  #swagger.summary = '내 꿈 목록 조회 API';
   #swagger.tags = ['User']
 
+  #swagger.parameters['page'] = {
+    in: 'query',
+    required: false,
+    type: 'integer',
+    description: '페이지 번호',
+    example:1
+  }
+
   #swagger.responses[200] = {
-    description: "내가 작성한 게시글 조회 성공",
+    description: "내 꿈 목록 조회 성공",
     content: {
       "application/json": {
         schema: {
@@ -142,6 +150,7 @@ export const handleListMyPost = async (req, res, next) => {
             success: {
               type: "object",
               properties: {
+              page: {type: 'integer', example: 1},
                 data: {
                   type: "array",
                   items: {
@@ -149,14 +158,14 @@ export const handleListMyPost = async (req, res, next) => {
                     properties: {
                       id: { type: "integer", example: 1, description: "게시물 ID" },
                       title: { type: "string", example: "첫 번째 게시물", description: "게시물 제목" },
-                      content: { type: "string", example: "첫 번째 게시물의 내용입니다.", description: "게시물 내용" },
                       open: { type: "boolean", example: true, description: "게시물 공개 여부 (true: 공개, false: 비공개)" },
-                      category: { type: "string", example: "개꿈" }
+                      category: { type: "string", example: "개꿈" },
                     }
                   },
                   description: "작성한 게시물의 데이터 배열"
                 }
               }
+
             }
           }
         }

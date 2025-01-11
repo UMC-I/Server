@@ -17,6 +17,7 @@ export const myPageGetDream = async (data) => {
     }
 
     const dreams = await getUserDreams(data);
+    console.log(dreams)
     return responseFromUserPosts(dreams);
 }
 

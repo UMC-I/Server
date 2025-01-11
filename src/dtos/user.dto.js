@@ -20,10 +20,10 @@ export const responseFromUserPostOpen = ({ post }) => {
 
 
 // 내가 쓴 게시물 가져오기(나의 꿈 가져오기) 요청 DTO
-export const userToPosts = (user) =>{
-    console.log(user)
+export const userToPosts = (user,query) =>{
     return{
         userId: user.id,
+        page: parseInt(query.page)
     }
 }
 
@@ -31,7 +31,8 @@ export const userToPosts = (user) =>{
 // 내가 쓴 게시물 조회( 나의 꿈 조회) 전송 DTO
 export const responseFromUserPosts = (data) =>{
     return{
-        data: data
+        page: data.page,
+        data: data.dreams
     }
 }
 
