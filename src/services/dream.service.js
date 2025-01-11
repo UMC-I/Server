@@ -28,7 +28,7 @@ export const generateDreamDescription = async (postId) => {
       {
         role: "system",
         content:
-          "넌 전문적인 꿈 해석가야. 주어진 꿈 내용을 해석해서 의미있는 조언을 반말로 해줘. 대신 3줄로 요약해줘",
+          "넌 전문적인 꿈 해석가야. 주어진 꿈 내용을 해석해서 의미있는 조언을 반말로 해줘. 대신 90자 이내로 해석해줘.",
       },
       {
         role: "user",
