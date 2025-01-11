@@ -1,18 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
-import { userSignUp } from "../services/user.service.js";
-
-export const handleUserSignUp = async (req, res, next) => {
-  try {
-    console.log("회원가입을 요청했습니다!");
-    console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
-
-        const user = await userSignUp(bodyToUser(req.body));
-        res.status(StatusCodes.OK).success(user);
-    } catch (err) {
-        return next(err);
-    }
-};
+import {bodyToUser, userToPosts} from "../dtos/user.dto.js";
+import {myPageGetDream } from "../services/user.service.js";
 
 
 // 나의 꿈 비공개로 설정하기
@@ -97,34 +85,48 @@ export const handlerReleaseOption = async(req,res) =>{
 
 }
 
+// 나의 꿈 조회(내가 작성한 게시글 조회)
 export const handleListMyPost = async (req, res, next) => {
-  /*
+    const dreams = await myPageGetDream(userToPosts(req.user))
+    res.status(StatusCodes.OK).success(dreams)
+    /*
     #swagger.summary = '내가 작성한 게시글 조회 API';
     #swagger.tags = ['User']
-    #swagger.responses[200] = {
-      description: "게시글 조회 성공",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              resultType: { type: "string", example: "SUCCESS" },
-              error: { type: "object", nullable: true, example: null },
-              success: {
-                type: "object",
-                properties: {
-                  postId: { type: "number" },
-                  title: { type: "string" },
-                  open: { type: "boolean" },
+
+     #swagger.responses[200] = {
+    description: "게시물 작성 성공",
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            resultType: { type: "string", example: "SUCCESS", description: "결과 상태 (성공 여부)" },
+            error: { type: "object", nullable: true, example: null, description: "에러 정보 (없을 경우 null)" },
+            success: {
+              type: "object",
+              properties: {
+                data: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: { type: "integer", example: 1, description: "게시물 ID" },
+                      title: { type: "string", example: "첫 번째 게시물", description: "게시물 제목" },
+                      content: { type: "string", example: "첫 번째 게시물의 내용입니다.", description: "게시물 내용" },
+                      open: { type: "boolean", example: true, description: "게시물 공개 여부" }
+                    }
+                  },
+                  description: "게시물 데이터 목록"
                 }
               }
             }
           }
         }
       }
-    };
-    #swagger.responses[404] = {
-      description: "존재하지 않는 게시물 데이터",
+    }
+  };
+    #swagger.responses[400] = {
+      description: "해당 유저가 존재하지 않을 떄",
       content: {
         "application/json": {
           schema: {

@@ -1,23 +1,19 @@
-import { responseFromUser } from "../dtos/user.dto.js";;
+import {responseFromUserPosts} from "../dtos/user.dto.js";;
 import {
-    addUser,
-    getUser
+    getUser,
+    getUserDreams
 } from "../repositories/user.repository.js";
-import { DuplicateUserEmailError } from "../errors/errors.js";
+import {ExsistsNotUser} from "../errors/user.errors.js";
 
-export const userSignUp = async (data) => {
-    const UserId = await addUser({
-        name: data.name,
-        email: data.email,
-    });
 
-    if (UserId === null) {
-        throw new DuplicateUserEmailError("이미 존재하는 이메일입니다.", data);
+//내가 쓴 게시물 조회(나의 꿈 조회)
+export const myPageGetDream = async (data) =>{
+
+    const user = await getUser(data);
+    if(!user){
+        throw new ExsistsNotUser("존재하지 않는 유저입니다.",data.userId)
     }
 
-    const user = await getUser(UserId);
-    return responseFromUser(
-        {
-            user
-        });
-};
+    const dreams = await getUserDreams(data);
+    return responseFromUserPosts(dreams);
+}
