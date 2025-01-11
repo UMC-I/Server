@@ -1,3 +1,5 @@
+import {ExsistsNotUserError} from "../errors/user.errors.js";
+
 export const bodyToUser = (body) => {
     return {
         name: body.name,
@@ -14,6 +16,7 @@ export const responseFromUser = ({ user }) => {
 
 // 내가 쓴 게시물 가져오기(나의 꿈 가져오기) 요청 DTO
 export const userToPosts = (user) =>{
+    console.log(user)
     return{
         userId: user.id,
     }
