@@ -1,5 +1,5 @@
 
-import {ExsistsNotUserError} from "../errors/user.errors.js";
+import {ExsistsNotUserError, NotSocialError} from "../errors/user.errors.js";
 
 
 
@@ -21,6 +21,8 @@ export const responseFromUserPostOpen = ({ post }) => {
 
 // 내가 쓴 게시물 가져오기(나의 꿈 가져오기) 요청 DTO
 export const userToPosts = (user,query) =>{
+    if(user)
+        throw new NotSocialError("소셜 로그인을 진행해주세요")
     return{
         userId: user.id,
         page: parseInt(query.page)
