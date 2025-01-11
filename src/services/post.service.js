@@ -1,7 +1,8 @@
-import { responseFromPost } from "../dtos/post.dto.js";;
+import { responseFromPost, responseFromAllPosts } from "../dtos/post.dto.js";
 import {
-    addPost,
-    getPost
+  addPost,
+  getPost,
+  getAllPosts,
 } from "../repositories/post.repository.js";
 
 // 게시물 생성
@@ -13,9 +14,13 @@ export const postAdding = async (userId, data) => {
         category: data.category,
     });
 
-    const post = await getPost(postId);
-    return responseFromPost(
-        {
-            post
-        });
+  const post = await getPost(postId);
+  return responseFromPost({
+    post,
+  });
+};
+
+export const listPosts = async (category) => {
+  const posts = await getAllPosts(category);
+  return responseFromAllPosts(posts);
 };

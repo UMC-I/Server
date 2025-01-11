@@ -7,7 +7,20 @@ export const bodyToPost = (body) => {
     }
 };
 export const responseFromPost = ({ post }) => {
-    return {
-        post: post
-    }
+  return {
+    post: post,
+  };
+};
+
+export const responseFromAllPosts = (posts) => {
+  const AllPosts = posts.map((post) => ({
+    postId: post.id,
+    title: post.title,
+    content: post.content,
+    category: post.category,
+  }));
+
+  return {
+    success: AllPosts,
+  };
 };
