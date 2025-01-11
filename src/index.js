@@ -2,11 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 
-import {
-  handlerReleaseOption,
-  handleUserSignUp,
-  handleListMyPost,
-} from "./controllers/user.controller.js";
+import {handlerReleaseOption, handleListMyPost} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
 import {
@@ -132,7 +128,6 @@ app.get(
 app.get("/", (req, res, next) => {
   res.send(req.user);
 });
-app.post("/test", handleUserSignUp);
 
 // 홈 화면에에서 3개의 랭크 조회
 app.get("/posts/rank", handleListPostRank);
