@@ -23,25 +23,17 @@ const kakaoVerify = async (profile) => {
         throw new Error(`profile.email was not found: ${profile}`);
     }
 
-    const member = await prisma.member.findFirst({ where: { email } });
-    if (member !== null) {
-        return { id: member.id, email: member.email, name: member.name, socialType: member.socialType, point: member.point };
+    const user = await prisma.user.findFirst({ where: { email } });
+    if (user !== null) {
+        return { id: user.id, email: user.email, name: user.name};
     }
-    const created = await prisma.member.create({
+    const created = await prisma.user.create({
 
         data: {
             email,
             name: profile.username,
-            gender: "추후 수정",
-            age: 0,
-            address: "추후 수정",
-            specAddress: "추후 수정",
-            phoneNum: "추후 수정",
-            status: "추후 수정",
-            socialType: "Kakao",
-            point: 0,
         },
     });
 
-    return { id: created.id, email: created.email, name: created.name, socialType: created.socialType, point: created.point };
+    return { id: created.id, email: created.email, name: created.name };
 }

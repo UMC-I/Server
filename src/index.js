@@ -11,8 +11,6 @@ import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
 import {
-    googleStrategy,
-    naverStrategy,
     kakaoStrategy
 } from "./auth.config.js";
 import { prisma } from "./db.config.js";
@@ -24,8 +22,6 @@ BigInt.prototype.toJSON = function () { // bigint 호환
 
 dotenv.config();
 
-passport.use(googleStrategy);
-passport.use(naverStrategy);
 passport.use(kakaoStrategy);
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
