@@ -112,10 +112,12 @@ app.get("/openapi.json", async (req, res, next) => {
 
 //--------------------------------
 app.get(
+    // #swagger.ignore = true
   "/oauth2/login/kakao",
   passport.authenticate("kakao", { authType: "reprompt" })
 );
 app.get(
+    // #swagger.ignore = true
   "/oauth2/callback/kakao",
   passport.authenticate("kakao", {
     failureRedirect: "/oauth2/login/kakao",
@@ -127,6 +129,7 @@ app.get(
 
 app.get("/", (req, res, next) => {
   res.send(req.user);
+    // #swagger.ignore = true
 });
 
 // 홈 화면에에서 3개의 랭크 조회
