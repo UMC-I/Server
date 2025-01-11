@@ -1,25 +1,9 @@
-import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
-import { userSignUp } from "../services/user.service.js";
-
-export const handleUserSignUp = async (req, res, next) => {
-  try {
-    console.log("회원가입을 요청했습니다!");
-    console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
-
-    const user = await userSignUp(bodyToUser(req.body));
-    res.status(StatusCodes.OK).success(user);
-  } catch (err) {
-    return next(err);
-  }
-};
-
-export const handleListMyPost = async (req, res, next) => {
+export const handleListPostRank = async (req, res, next) => {
   /*
-    #swagger.summary = '내가 작성한 게시글 조회 API';
-    #swagger.tags = ['User']
+    #swagger.summary = '랭킹 조회 API';
+    #swagger.tags = ['Home']
     #swagger.responses[200] = {
-      description: "게시글 조회 성공",
+      description: "랭킹 조회 성공",
       content: {
         "application/json": {
           schema: {
@@ -32,7 +16,7 @@ export const handleListMyPost = async (req, res, next) => {
                 properties: {
                   postId: { type: "number" },
                   title: { type: "string" },
-                  open: { type: "boolean" },
+                  likes: { type: "number" },
                 }
               }
             }
