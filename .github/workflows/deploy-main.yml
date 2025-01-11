@@ -48,7 +48,6 @@ jobs:
         run: |
           ssh playground-umc-7th 'cd /opt/app; npm install'
           ssh playground-umc-7th 'cd /opt/app; npm exec prisma generate'
-          ssh playground-umc-7th 'cd /opt/app; npm run build'
 
       - name: Apply prisma migrations
         if: steps.paths-filter.outputs.prisma == 'true'
@@ -64,7 +63,7 @@ jobs:
 
             [Service]
             User=${USER}
-            ExecStart=/usr/bin/npm run dev --prefix /opt/app/
+            ExecStart=/usr/bin/npm run start --prefix /opt/app/
             Restart=always
 
             [Install]
