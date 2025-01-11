@@ -1,5 +1,5 @@
 
-import {responseFromPost, responseFromAllPosts, responseFromDream} from "../dtos/post.dto.js";
+import {responseFromPost, responseFromAllPosts, responseFromDream, responseFromLike} from "../dtos/post.dto.js";
 import {
     addPost,
     getPost,
@@ -35,7 +35,7 @@ export const patchLike = async (userId, postId, data) => {
     if (like === null) {
         throw new NotExistPost("게시판이 존재하지 않습니다.", data)
     }
-    return responseFromPost(
+    return responseFromLike(
         {
             like
         });

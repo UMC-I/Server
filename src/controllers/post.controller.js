@@ -1,12 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-
-import { bodyToPost, dreamToView } from "../dtos/post.dto.js";
-import {
-  postAdding,
-  patchLike,
-  listPosts,
-  UserDreamView,
-} from "../services/post.service.js";
+import {bodyToPost, dreamToView,bodyToLike} from "../dtos/post.dto.js";
+import { postAdding, patchLike, listPosts, UserDreamView } from "../services/post.service.js";
 import { NotSocialError } from "../errors/post.errors.js";
 
 export const handleListPost = async (req, res, next) => {
@@ -206,7 +200,7 @@ export const handlerGetPostView = async (req, res) => {
             error: {
               type: "object",
               properties: {
-                errorCode: { type: "string", example: "P002" },
+                errorCode: { type: "string", example: "P003" },
                 reason: { type: "string", example: "게시물을 찾을 수 없음" },
                 data: {
                   type: "object",
@@ -226,7 +220,7 @@ export const handlerGetPostView = async (req, res) => {
 };
 
 // 게시물 좋아요 누르기
-export const handlerPostLike = async (req, res, next) => {
+export const handlerPostLike = async (req,res, next) =>{
   /*
  #swagger.summary = '게시물 좋아요 누르기API';
  #swagger.tags = ['Post']
@@ -284,7 +278,7 @@ export const handlerPostLike = async (req, res, next) => {
              type: "object",
              properties: {
                errorCode: { type: "string", example: "P001" },
-               reason: { type: "string", example: "게시물을 찾을 수 없음" },
+               reason: { type: "string", example: "소셜 로그인을 해주세요" },
                data: {
                  type: "object",
                  properties: {

@@ -18,6 +18,7 @@ export class NotSocialError extends Error {
         super(reason);
         this.reason = reason;
         this.data = data;
+        this.statusCode = 400;
     }
 }
 export class NotExistPost extends Error {
@@ -27,6 +28,7 @@ export class NotExistPost extends Error {
         super(reason);
         this.reason = reason;
         this.data = data;
+        this.statusCode = 404;
 
     }
 }
