@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import {bodyToUser, userToPosts, bodyToUserPostOpen} from "../dtos/user.dto.js";
+import {userToPosts, bodyToUserPostOpen} from "../dtos/user.dto.js";
 import {myPageGetDream,patchPostOpen } from "../services/user.service.js";
 
 import { NotSocialError } from "../errors/post.errors.js";
