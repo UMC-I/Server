@@ -3,7 +3,7 @@ import {
     addUser,
     getUser
 } from "../repositories/user.repository.js";
-import { DuplicateUserEmailError } from "../errors.js";
+import { DuplicateUserEmailError } from "../errors/errors.js";
 
 export const userSignUp = async (data) => {
     const UserId = await addUser({
