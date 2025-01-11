@@ -29,7 +29,6 @@ model Post {
   content    String    @map("content")
   category   String    @map("category")
   open       Boolean   @map("open")
-  status     Boolean
   createdAt  DateTime  @default(now()) @map("create_at")
   updatedAt  DateTime? @map("update_at")
 
@@ -47,6 +46,7 @@ model Likes {
   userId    BigInt    @map("user_id")
   createdAt DateTime  @default(now()) @map("create_at")
   updatedAt DateTime? @map("update_at")
+  status     Boolean
 
   post Post @relation(fields: [postId], references: [id])
   user User @relation(fields: [userId], references: [id])
