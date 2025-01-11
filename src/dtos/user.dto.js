@@ -17,9 +17,9 @@ export const bodyToUserPostOpen = (body) => {
         open: body.open
     }
 };
-export const responseFromUserPostOpen = ({ user }) => {
+export const responseFromUserPostOpen = ({ post }) => {
     return {
-        postId: user.postId,
-        open: user.open
+        postId: post.postId,
+        open: post.open
     }
 };
