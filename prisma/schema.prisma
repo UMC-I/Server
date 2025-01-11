@@ -28,6 +28,7 @@ model Post {
   content    String    @map("content")
   category   String    @map("category")
   open       Boolean   @map("open")
+  status     Boolean
   createdAt  DateTime  @default(now()) @map("create_at")
   updatedAt  DateTime? @map("update_at")
 

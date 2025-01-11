@@ -1,9 +1,10 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { handleUserSignUp } from "./controllers/user.controller.js";
+import {handlerReleaseOption, handleUserSignUp} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
+import {handlerGetPostView, handlerPostLike} from "./controllers/posts.controller.js";
 dotenv.config();
 
 const app = express();
@@ -73,6 +74,15 @@ app.get('/', (req, res, next) => {
     res.send('Hello World!')
 })
 app.post('/test', handleUserSignUp);
+
+//나의 꿈 비공개 여부 수정
+app.patch('/users/posts/open', handlerReleaseOption);
+
+// 꿈 상세 조회
+app.get('/posts/:postId', handlerGetPostView);
+
+//게시물 좋아요 누르기
+app.patch('/posts/:postId/like', handlerPostLike);
 
 //--------------------------------
 

@@ -13,3 +13,86 @@ export const handleUserSignUp = async (req, res, next) => {
         return next(err);
     }
 };
+
+
+// 나의 꿈 비공개로 설정하기
+export const handlerReleaseOption = async(req,res) =>{
+    /*
+      #swagger.summary = '나의 꿈 공개 여부 수정 API';
+      #swagger.tags = ['User']
+      #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    required: ["userId", "postId", "open"],
+                    properties: {
+                        partyName: { type: "integer", example: 1 },
+                        name: { type: "integer", example: 1 },
+                        open: { type: "string", example: "private" }
+                    }
+                }
+            }
+        }
+     }
+
+      #swagger.responses[200] = {
+        description: "나의 꿈 공개 여부 수정 성공 응답",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                resultType: { type: "string", example: "SUCCESS" },
+                error: { type: "object", nullable: true, example: null },
+                success: {
+                  type: "object",
+                  properties: {
+                    postId: { type: "integer", example: 1, description: "게시물의 고유 ID" },
+                    userId: { type: "integer", example: 1, description: "유저의 고유 ID" },
+                    open: {
+                      type: "string",
+                      example: "private",
+                      description: "게시물 공개 여부 ('public' 또는 'private')"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      #swagger.responses[400] = {
+        description: "나의 꿈 공개 여부 수정 실패 응답",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                resultType: { type: "string", example: "FAIL" },
+                error: {
+                  type: "object",
+                  properties: {
+                    errorCode: { type: "string", example: "U001" },
+                    reason: { type: "string", example: "게시물 또는 유저를 찾을 수 없음" },
+                    data: {
+                      type: "object",
+                      properties: {
+                        postId: { type: "integer", example: 1 },
+                        userId: { type: "integer", example: 1 }
+                      }
+                    }
+                  }
+                },
+                success: { type: "object", nullable: true, example: null }
+              }
+            }
+          }
+        }
+      };
+
+    */
+
+}
