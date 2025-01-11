@@ -1,19 +1,16 @@
-import swaggerAutogen from "swagger-autogen";
-import swaggerUiExpress from "swagger-ui-express";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import {
-  handleUserSignUp,
-  handleListMyPost,
-} from "./controllers/user.controller.js";
+
+import {handlerReleaseOption, handleUserSignUp, handlerListMyPost} from "./controllers/user.controller.js";
+import swaggerUiExpress from "swagger-ui-express";
+import swaggerAutogen from "swagger-autogen";
+import {handlerGetPostView, handlerPostLike} from "./controllers/posts.controller.js";
 import { handleListPostRank } from "./controllers/home.controller.js";
 import {
   handleListPost,
   handleCreatePost,
 } from "./controllers/post.controller.js";
-import swaggerUiExpress from "swagger-ui-express";
-import swaggerAutogen from "swagger-autogen";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
@@ -26,6 +23,7 @@ BigInt.prototype.toJSON = function () { // bigint 호환
     const int = Number.parseInt(this.toString());
     return int ?? this.toString();
 };
+
 
 dotenv.config();
 
@@ -141,6 +139,15 @@ app.post("/users/posts", handleCreatePost);
 // 내가 작성한 게시물 조회 (제목, 내용 일부, 비공개 여부)
 app.get("/my-posts", handleListMyPost);
 
+
+//나의 꿈 비공개 여부 수정
+app.patch('/users/posts/open', handlerReleaseOption);
+
+// 꿈 상세 조회
+app.get('/posts/:postId', handlerGetPostView);
+
+//게시물 좋아요 누르기
+app.patch('/posts/:postId/like', handlerPostLike);
 
 //--------------------------------
 

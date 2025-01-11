@@ -22,14 +22,17 @@ model User {
 }
 
 model Post {
-  id        BigInt    @id @default(autoincrement()) @map("id")
-  userId    BigInt    @map("user_id")
-  title     String    @map("title")
-  content   String    @map("content")
-  category  String    @map("category")
-  open      Boolean   @map("open")
-  createdAt DateTime  @default(now()) @map("create_at")
-  updatedAt DateTime? @map("update_at")
+
+  id         BigInt    @id @default(autoincrement()) @map("id")
+  userId     BigInt    @map("user_id")
+  title      String    @map("title")
+  content    String    @map("content")
+  category   String    @map("category")
+  open       Boolean   @map("open")
+  status     Boolean
+  createdAt  DateTime  @default(now()) @map("create_at")
+  updatedAt  DateTime? @map("update_at")
+
 
   user   User    @relation(fields: [userId], references: [id])
   likes  Likes[]
