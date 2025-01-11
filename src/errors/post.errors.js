@@ -1,4 +1,4 @@
-export class DuplicateUserEmailError extends Error {
+export class NotSocialError extends Error {
     errorCode = "U001";
 
     constructor(reason, data) {

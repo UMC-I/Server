@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToPost } from "../dtos/post.dto.js";
 import { postAdding, listPosts } from "../services/post.service.js";
+import { NotSocialError } from "../errors/post.errors.js";
 
 export const handleListPost = async (req, res, next) => {
   /*
@@ -68,7 +69,7 @@ export const handleListPost = async (req, res, next) => {
     next(error);
   }
 };
-
+// 게시물 생성
 export const handleCreatePost = async (req, res, next) => {
   /*
     #swagger.summary = '게시글 추가 API';
@@ -83,7 +84,6 @@ export const handleCreatePost = async (req, res, next) => {
               title: { type: "string" },
               content: { type: "string" },
               category: { type: "string" },
-              open: { type: "boolean" },
             }
           }
         }
@@ -114,7 +114,7 @@ export const handleCreatePost = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "값 누락",
+      description: "로그인이 되어있지 않을 때때",
       content: {
         "application/json": {
           schema: {
@@ -137,6 +137,9 @@ export const handleCreatePost = async (req, res, next) => {
     };
   */
   try {
+    if (!req.user) {
+      throw new NotSocialError("소셜 로그인을 해주세요.", req.user)
+    }
     console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
     const post = await postAdding(req.user.id, bodyToPost(req.body));
     res.status(StatusCodes.OK).success(post);

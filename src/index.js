@@ -2,11 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 
-import {
-  handlerReleaseOption,
-  handleUserSignUp,
-  handleListMyPost,
-} from "./controllers/user.controller.js";
+import {handlerReleaseOption, handleListMyPost} from "./controllers/user.controller.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerAutogen from "swagger-autogen";
 import {
@@ -38,6 +34,20 @@ passport.deserializeUser((user, done) => done(null, user));
 
 const app = express();
 const port = process.env.PORT;
+//---------------------------------
+app.use((req, res, next) => {
+    res.success = (success) => {
+        return res.json({ resultType: "SUCCESS", error: null, success });
+    };
+    res.error = ({ errorCode = "unknown", reason = null, data = null }) => {
+        return res.json({
+            resultType: "FAIL",
+            error: { errorCode, reason, data },
+            success: null,
+        });
+    };
+    next();
+});
 
 app.use(cors({ origin: "*" }));
 app.use(express.static("public"));
@@ -100,20 +110,6 @@ app.get("/openapi.json", async (req, res, next) => {
   res.json(result ? result.data : null);
 });
 
-//---------------------------------
-app.use((req, res, next) => {
-  res.success = (success) => {
-    return res.json({ resultType: "SUCCESS", error: null, success });
-  };
-  res.error = ({ errorCode = "unknown", reason = null, data = null }) => {
-    return res.json({
-      resultType: "FAIL",
-      error: { errorCode, reason, data },
-      success: null,
-    });
-  };
-  next();
-});
 //--------------------------------
 app.get(
   "/oauth2/login/kakao",
@@ -132,7 +128,6 @@ app.get(
 app.get("/", (req, res, next) => {
   res.send(req.user);
 });
-app.post("/test", handleUserSignUp);
 
 // 홈 화면에에서 3개의 랭크 조회
 app.get("/posts/rank", handleListPostRank);
@@ -158,15 +153,16 @@ app.patch("/posts/:postId/like", handlerPostLike);
 //--------------------------------
 
 app.use((err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
+    console.log({ err })
+    if (res.headersSent) {
+        return next(err);
+    }
 
-  res.status(err.statusCode || 500).error({
-    errorCode: err.errorCode || "unknown",
-    reason: err.reason || err.message || null,
-    data: err.data || null,
-  });
+    res.status(err.statusCode || 500).error({
+        errorCode: err.errorCode || "unknown",
+        reason: err.reason || err.message || null,
+        data: err.data || null,
+    });
 });
 
 app.listen(port, () => {
